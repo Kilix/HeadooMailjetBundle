@@ -132,6 +132,7 @@ class MailjetWrapper
 
     public function requestUrlBuilder($resource, $params = array(), $request, $id)
     {
+
         if ($resource == "sendEmail") {
             $this->call_url = "https://api.mailjet.com/v3/send/message";
         } else if (($resource == "addHTMLbody") || ($resource == "getHTMLbody")) {
@@ -141,9 +142,14 @@ class MailjetWrapper
                 $newsletter_id = $params['ID'];
             }
             $this->call_url = "https://api.mailjet.com/v3/DATA/NewsLetter/" . $newsletter_id . "/HTML/text/html/LAST";
-        }  else if($resource == "schedule"){
-             $newsletter_id = $params['ID'];
-             $this->call_url = $this->apiUrl."/newsletter/".$newsletter_id."/schedule";
+        }  else if($resource == "schedule") {
+            $newsletter_id = $params['ID'];
+            $this->call_url = $this->apiUrl . "/newsletter/" . $newsletter_id . "/schedule";
+        } else if($resource == 'managecontact'){
+            if (!empty($params['list_id'])) {
+                $list_id = $params['list_id'];
+            }
+            $this->call_url = $this->apiUrl . '/contactslist/' . $list_id .'/managecontact';
         }else {
             $this->call_url = $this->apiUrl . '/' . $resource;
         }
